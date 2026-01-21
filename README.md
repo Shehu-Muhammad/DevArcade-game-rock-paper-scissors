@@ -1,1 +1,1 @@
-# -DevArcade-game-rock-paper-scissors
+# DevArcade-game-rock-paper-scissors
