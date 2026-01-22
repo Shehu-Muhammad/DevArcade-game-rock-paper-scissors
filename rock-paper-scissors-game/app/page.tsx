@@ -4,7 +4,8 @@ import Choices, { options, RPS } from '@/components/Choices';
 import CPUChoice from '@/components/CpuChoice';
 import Countdown from '@/components/Countdown';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
+import { on } from 'events';
 
 export default function Home() {
   // State
@@ -38,9 +39,13 @@ export default function Home() {
 
   const handleSubmit = () => {
     if (!playerChoice) return;
-    generateCPU();
+    if (!cpuChoice) generateCPU();
     setSubmitted(true);
   };
+
+  const onPlayClick = useCallback(() => {
+    submitted ? restartCountdown() : setShowCountdown(true);
+  }, [submitted]);
 
   // Handle submitting the player's choice
   const submitChoice = () => {
@@ -87,9 +92,7 @@ export default function Home() {
           {/* TOP: Play / Play Again button */}
           <button
             className='rounded-lg bg-blue-600 px-8 py-3 text-white hover:bg-blue-700'
-            onClick={() =>
-              submitted ? restartCountdown() : setShowCountdown(true)
-            }
+            onClick={() => onPlayClick()}
           >
             {submitted ? 'Play Again' : 'Start Game'}
           </button>
