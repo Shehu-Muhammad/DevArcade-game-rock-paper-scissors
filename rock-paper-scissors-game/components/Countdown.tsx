@@ -31,7 +31,7 @@ export default function RPSCountdown({ onFinish, keyId }: RPSCountdownProps) {
 
   return (
     <div
-      style={{ fontSize: '4rem', fontWeight: 'bold', textAlign: 'center' }}
+      style={{ fontSize: '3rem', fontWeight: 'bold', textAlign: 'center' }}
       key={words[index]}
     >
       {words[index]}

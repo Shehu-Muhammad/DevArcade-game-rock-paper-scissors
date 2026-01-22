@@ -14,7 +14,6 @@ export default function Home() {
   const [showCountdown, setShowCountdown] = useState(false);
   const [runId, setRunId] = useState(0);
   const [submitted, setSubmitted] = useState(false);
-  const [result, setResult] = useState<string | null>(null);
 
   // Reset everything for a new round
   const reset = () => {
@@ -39,15 +38,14 @@ export default function Home() {
 
   const handleSubmit = () => {
     if (!playerChoice) return;
-    generateCPU(); // now CPU picks only when player presses submit
-    setSubmitted(true); // disables radio buttons and submit button
+    generateCPU();
+    setSubmitted(true);
   };
 
   // Handle submitting the player's choice
   const submitChoice = () => {
     if (!playerChoice || !cpuChoice) return;
     // winner calculation could go here
-    // For now we just leave cpuChoice and playerChoice in state
     if (playerChoice === cpuChoice) return "It's a tie!";
     if (
       (playerChoice === 'rock' && cpuChoice === 'scissors') ||
@@ -85,47 +83,51 @@ export default function Home() {
           </p>
         </div>
 
-        <button
-          className='mt-8 rounded bg-blue-600 px-6 py-3 text-white hover:bg-blue-700'
-          onClick={() => {
-            submitted ? restartCountdown() : setShowCountdown(true);
-          }}
-        >
-          {submitted ? 'Play Again' : 'Start Game'}
-        </button>
-
-        {showCountdown && (
-          <div className='mt-8 rounded p-4 text-center'>
-            <Countdown
-              key={runId}
-              onFinish={() => {
-                setCanChoose(true);
-                setShowCountdown(false);
-              }}
-            />
-          </div>
-        )}
-
-        <div className='mt-8'>
-          <Choices
-            options={options}
-            value={playerChoice}
-            setValue={setPlayerChoice}
-            disabled={!canChoose || submitted} // disable until countdown ends or after submit
-          />
-
+        <div className='flex flex-col items-center w-full mt-8 gap-10'>
+          {/* TOP: Play / Play Again button */}
           <button
-            className='mt-4 rounded bg-green-600 px-4 py-2 text-white hover:bg-green-700 disabled:opacity-50'
-            disabled={!canChoose || !playerChoice || submitted}
-            onClick={handleSubmit}
+            className='rounded-lg bg-blue-600 px-8 py-3 text-white hover:bg-blue-700'
+            onClick={() =>
+              submitted ? restartCountdown() : setShowCountdown(true)
+            }
           >
-            Submit Choice
+            {submitted ? 'Play Again' : 'Start Game'}
           </button>
 
-          <CPUChoice cpuChoice={cpuChoice} submitted={submitted} />
-          <p className='mt-4 text-xl font-bold'>
-            {submitted && submitChoice()}
-          </p>
+          {/* MAIN GAME AREA */}
+          <div className='flex w-full gap-12 lg:max-w-4xl'>
+            {/* LEFT: Player choices + Submit */}
+            <div className='flex flex-col items-start gap-4 flex-1'>
+              <Choices
+                options={options}
+                value={playerChoice}
+                setValue={setPlayerChoice}
+                disabled={!canChoose || submitted}
+              />
+
+              <button
+                className='rounded-lg bg-green-600 px-6 py-3 text-white hover:bg-green-700 disabled:opacity-50'
+                disabled={!canChoose || !playerChoice || submitted}
+                onClick={handleSubmit}
+              >
+                Submit Choice
+              </button>
+            </div>
+
+            {/* RIGHT: Countdown / CPU choice + Result */}
+            <div className='flex flex-col justify-center gap-6 flex-1 h-full'>
+              {showCountdown && !submitted ? (
+                <Countdown key={runId} onFinish={() => setCanChoose(true)} />
+              ) : (
+                <>
+                  <CPUChoice cpuChoice={cpuChoice} submitted={submitted} />
+                  <p className='text-3xl font-bold text-center'>
+                    {submitted && submitChoice()}
+                  </p>
+                </>
+              )}
+            </div>
+          </div>
         </div>
 
         <div className='text-center text-zinc-600 dark:text-zinc-400 sm:text-left m-4'>

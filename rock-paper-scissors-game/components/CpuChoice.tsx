@@ -17,7 +17,7 @@ export default function CPUChoice({ cpuChoice, submitted }: CPUChoiceProps) {
   const { label, Icon } = cpuOption;
 
   return (
-    <div className='flex items-center gap-2 text-xl font-bold mt-4'>
+    <div className='flex flex-items-center gap-2 px-2 w-32 text-3xl font-bold'>
       <span>CPU chose:</span>
       <Icon size={32} />
       <span>{label}</span>
