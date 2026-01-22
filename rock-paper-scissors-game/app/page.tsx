@@ -45,7 +45,7 @@ export default function Home() {
             showCountdown ? restartCountdown() : startCountdown();
           }}
         >
-          {showCountdown ? 'Restart Countdown' : 'Start Game'}
+          {showCountdown ? 'Play Again' : 'Start Game'}
         </button>
 
         {showCountdown && (
