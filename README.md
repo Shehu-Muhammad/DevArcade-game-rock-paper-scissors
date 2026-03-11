@@ -49,12 +49,14 @@ git clone https://github.com/Shehu-Muhammad/DevArcade-game-rock-paper-scissors.g
 ### 2. Open the project folder
 
 ```bash
-cd rock-paper-scissors
+cd rock-paper-scissors-game/app
 ```
 
 ### 3. Run the app
 
-Open `index.html` in your browser.
+```bash
+npm run dev
+```
 
 ## Game Logic
 
